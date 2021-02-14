@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<style>
+	body{
+		padding-top: 0px;
+		padding-bottom: 40px;
+	}
+	.navbar .logo{
+		display: block;
+		float: left;
+		width: 100px;
+		height: 30px;
+		background: url(/ShareIT/imgs/logo2.png) no-repeat left 30%
+	}
+	.data_list{
+		border: 1px solid #E5E5E5;
+		padding: 10px;
+		background-color: #FDFDFD;
+		margin-top: 0px;
+		margin-bottom: 10px;
+	}
+	.data_list .data_list_title{
+		font-size: 15px;
+		font-weight: bold;
+		
+		border-bottom: 1px solid #E5E5E5;
+		padding-bottom: 10px;
+		padding-top: 5px;
+	}	
+	.data_list .data_list_title img{
+		margin-top: 1px;
+		vertical-align: top;
+	}
+	.top-left-nav,.user-nav{
+		width:100%;
+        display: inline-block;
+        border: 1px solid #DDDDDD;
+        height: 30px;
+    }
+
+    .nav{
+        display: inline-block;
+        margin:0 auto;
+        padding:0;
+        position: relative;
+    }
+
+    .nav:after{
+        content:"";
+        display:block;
+        clear:both;
+        visibility: hidden;
+        width:0px;
+        height:0px;
+    }
+
+    .nav a{
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        margin:0 auto;
+    }
+
+    .first-nav{
+            float: left;
+            text-align:center;
+            display: block;
+            margin:0 auto;
+    }
+
+    .sec-nav{
+            position: relative;
+            display: block;
+            text-align:center;
+    }
+    .top-left-nav .first-nav{
+      /*显示具体布局*/
+        width:100px;
+        line-height:30px;
+    }
+    .top-left-nav  .sec-nav{
+        margin:0px;
+        display: none;
+        /* padding:5px 3px; */
+        width: 100px;
+    }
+    .top-left-nav .first-nav:hover .sec-nav{
+        display: block;
+        margin-top:4px;
+        background:	#FFFFFF;
+        border: 1px solid #DDDDDD;
+    }
+</style>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title th:text="${title}+'-IT知识分享库'"></title>
+		<link rel="stylesheet" href="/ShareIT/bootstrap-3.3.7/dist/css/bootstrap.min.css"></link>
+		<script src="/ShareIT/jquery-3.5.1.js"></script>
+		<script src="/ShareIT/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div>
+			<nav class="navbar navbar-inverse" role="navigation" th:include="common/head::#h"></nav>
+		</div>
+		<div class="container">	
+			<div class="col-md-8">
+				<input id="is_admin" type="hidden" th:value="${admin}"/>
+				<div th:include="${mainPage}::${mainPageKey}"></div>
+			</div>
+				
+			<div class="col-md-4">
+				<div class="data_list">
+					<div class="data_list_title">
+						<img src="/ShareIT/imgs/dynamic_icon.png"/>
+						最近发布
+					</div>
+					<div class="datas">
+						<ul>
+							<li th:each="newKnow:${newKnowList}">
+								<span>
+									<a th:href="'/knowledge/'+${newKnow.id}" target="_blank" th:title="${newKnow.title}"   th:text="${newKnow.title}">
+									</a>
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>		
+				<div class="data_list">
+					<div class="data_list_title">
+						<img src="/ShareIT/imgs/hot_icon.png"/>
+						热门知识
+					</div>
+					<div class="datas">
+						<ul>
+							<li th:each="newHotKnow:${newHotKnowList}"><span><a th:href="'/knowledge/'+${newHotKnow.id}" target="_blank"  th:title="${newHotKnow.title}" th:text="${newHotKnow.title }"></a></span></li>
+						</ul>
+					</div>
+				</div>								
+				<div class="data_list">
+					<div class="data_list_title">
+						<img src="/ShareIT/imgs/link_icon.png"/>
+						友情链接
+					</div>
+					<div class="datas">
+						<ul>
+							<li th:each="link:${application.linkList}"><span><a th:href="${link.url }" target="_blank"  th:title="${link.name}" th:text="${link.name }"></a></span></li>
+						</ul>
+					</div>
+				</div>
+			</div>		
+		</div>
+	</body>
+</html>
+<script th:inline="javascript">
+	//是否为管理员
+    var is_admin = document.getElementById("is_admin").value;
+	$("#release").click(function(){
+		if(is_admin == -1){
+			alert("请先登录！");
+		}
+		else{
+			window.open("/ShareIT/release");
+		}
+	});
+
+</script>
+<script type="text/javascript">
+	
+	$(document).ready(function (){
+		//鼠标移至下拉菜单，会自动显示，移开，会自动消失
+     	$('.dropdown').mouseover(function() {
+         	$(this).addClass('open');
+     	}).mouseout(function () {
+         	$(this).removeClass('open');
+     	});
+
+		//导航菜单点击后，自动添加active属性
+		$(".navbar-nav").find("li").each(function () {
+		    var a = $(this).find("a:first")[0];
+		    if ($(a).attr("href") === location.pathname) {
+		      $(this).addClass("active");
+		    } else {
+		      $(this).removeClass("active");
+		    }
+  		});
+	});
+
+</script>

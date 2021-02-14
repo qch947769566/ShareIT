@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	html{
+		height: 100%;
+	}
+	body{
+		height: 100%;
+		background: #fff url(./imgs/神社1.jpg) 50% 50% no-repeat;
+		background-size: cover;
+	}
+	.form1{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 400px;
+		height: 360px;
+		margin: -150px 0 0 -180px;
+		border: 1px solid #fff;
+		border-radius: 20px;
+		overflow: hidden;
+	}
+	.logo{
+		width: 50px;
+		height: 50px;
+		margin: 10px auto 0px;
+		background: url(./imgs/logo1.png) 50% 50% no-repeat;
+	}
+	.form-item{
+		position: relative;
+		width: 350px;
+		margin: 0 auto;
+		padding-bottom: 15px;
+	}
+	.form-item input{
+		width: 340px;
+		height: 48px;
+		padding-left: 50px;
+		border: 1px solid #fff;
+		border-radius: 25px;
+		font-size: 18px;
+		color: white;
+		background-color: transparent;
+		outline: none;
+	}
+	.form-item button{
+		width: 200px;
+		height: 50px;
+		border: 0;
+		margin-left: 70px;
+		border-radius: 25px;
+		font-size: 18px;
+		color: #1f6f4a;
+		background-color: #fff;
+		outline: none;
+		cursor: pointer;
+	}
+	#username{
+		background: url(./imgs/user_icon.png) 20px 14px no-repeat;
+	}
+	#password{
+		background: url(./imgs/about_icon.png) 20px 14px no-repeat;
+	}
+	#name{
+		background: url(./imgs/new_icon.png) 20px 14px no-repeat;
+	}
+	.reg-bar{
+		width: 360px;
+		margin: 5px auto 0;
+		font-size: 15px;
+		overflow: hidden;
+	}
+	.reg-bar a{
+		color: #fff;
+		text-decoration: none;
+	}
+	.reg-bar a:hover{
+		text-decoration: underline;
+	}
+	.reg-bar .reg{
+		float: right;
+	}
+</style>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>注册</title>
+	</head>
+	<body>
+		<div class="form1">
+			<div class="logo"></div>
+			<div class="form-item">
+				<input id="username" type="text" autocomplete="off" placeholder="用户名">
+			</div>
+			<div class="form-item">
+				<input id="password" type="password" autocomplete="off" placeholder="密码">
+			</div>
+			<div class="form-item">
+				<input id="name" type="text" autocomplete="off" placeholder="真实姓名">
+			</div>
+			<div class="form-item"><button id="submit">注册</button></div>
+			<div class="reg-bar">
+				<a class="reg" href="javascript:window.location.href='login'">返回</a>
+			</div>
+		</div>
+	</body>
+</html>
+<link rel="stylesheet" type="text/css" href="./jquery-easyui-1.9.12/themes/default/easyui.css"></link>
+<link rel="stylesheet" type="text/css" href="./jquery-easyui-1.9.12/themes/icon.css"></link>
+<script src="./jquery-easyui-1.9.12/jquery.min.js"></script>
+<script src="./jquery-easyui-1.9.12/jquery.easyui.min.js"></script>
+<script src="./jquery-easyui-1.9.12/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+	
+	//注册
+	$("#submit").click(function(){
+		var username = $("#username").val();
+		var password = $("#password").val();
+		var name = $("#name").val();
+
+		if(username == ''){
+			$.messager.alert("消息提醒", "请填写用户名!", "warning");
+			return;
+		}
+		if(password == ''){
+			$.messager.alert("消息提醒", "请填写密码!", "warning");
+			return;
+		}
+		if(name == ''){
+			$.messager.alert("消息提醒", "请填写真实姓名!", "warning");
+			return;
+		}
+
+		$.ajax({
+			type: "post",
+			url: "register/submit",
+			data: {
+				"username": username,
+				"password": password,
+				"name": name
+			}, 
+			dataType: "json", //返回数据类型
+			success: function(data){
+				if("success" == data.type){
+					//window.parent.location.href = "/index";
+					$.messager.alert("消息提醒", data.msg, "warning",function(){
+						window.location.href = "login";
+					})
+				} else{
+					$.messager.alert("消息提醒", data.msg, "warning");
+				} 
+			}
+				
+		});
+	});
+</script>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<title>个人中心</title>
+<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.3.3/themes/default/easyui.css"></link>
+<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.3.3/themes/icon.css"></link>
+</head>
+<body class="easyui-layout">
+	<div region="north" style="height: 110px;background-color: #E0ECFF">
+		<table style="padding: 5px" width="100%">
+			<tr>
+				<td width="50%">
+					<img alt="logo" src="/static/images/logo.png"></img>
+				</td>
+				<td valign="bottom" align="right" width="50%">
+					<font size="3">&nbsp;&nbsp;<span th:text="${zh_name}"></span><strong>，欢迎您使用IT知识分享库</strong>&nbsp;&nbsp;<a href="/login">注销</a></font>	
+					<input id="manager1" type="hidden" th:value="${manager}" ></input>					
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div region="center">
+		<div class="easyui-tabs" fit="true" border="false" id="tabs">
+			<div title="首页" data-options="iconCls:'icon-home'">
+				<div align="center" style="padding-top: 100px"><font color="red" size="10">欢迎使用</font></div>
+			</div>
+		</div>
+	</div>
+	<div region="west" style="width: 200px" title="导航菜单" split="true">
+		<div style="padding-top: 10px;padding-left: 10px;">
+	        <a href="javascript:openTab('上传知识案例','add.html','icon-addFilm')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-addFilm'" th:style="'width: 150px;'+'display:'+@{(${manager}=='0'?'block':'none')}+''">上传知识案例</a>
+			<a href="javascript:openTab('我的知识案例','myKnowledge.html','icon-dynamic')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-dynamic'" style="width: 150px;">我的知识案例</a>	
+			<a href="javascript:openTab('我的收藏','myFavorite.html','icon-survey')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-survey'" style="width: 150px;">我的收藏</a>	
+			<a href="javascript:openTab('我的精选','mySelected.html','icon-website')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-website'" th:style="'width: 150px;'+'display:'+@{(${manager}=='1'?'block':'none')}+''">我的精选</a>
+			<a id="m_examine" href="javascript:openTab('我的案例审核','examine.html','icon-film')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-film'" th:style="'width: 150px;'+'display:'+@{(${manager}=='1'?'block':'none')}+''">我的案例审核</a>
+			<a id="u_examine" href="javascript:openTab('我的案例退回','return.html','icon-film')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-film'" th:style="'width: 150px;'+'display:'+@{(${manager}=='0'?'block':'none')}+''">我的案例退回</a>
+			<a href="javascript:openTab('图表统计','amchartReport.html','icon-byDate')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-byDate'" th:style="'width: 150px;'+'display:'+@{(${manager}=='1'?'block':'none')}+''">图表统计</a>
+			<a href="javascript:logout()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-exit'" style="width: 150px;">返回首页</a>
+		</div>
+	</div>
+	<div region="south" style="height: 30px;padding: 5px" align="center">
+		ShareIT-毕业设计
+	</div>
+</body>
+<script type="text/javascript" src="/static/jquery-easyui-1.3.3/jquery.min.js"></script>
+<script type="text/javascript" src="/static/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/static/jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+    /*<![CDATA[*/  
+	var url;
+    
+	function openTab(text,url,iconCls){
+		if($("#tabs").tabs("exists",text)){
+			$("#tabs").tabs("select",text);
+		}else{
+			var content="<iframe frameborder=0 scrolling='auto' style='width:100%;height:99.6%' src='/admin/"+url+"'></iframe>";
+			$("#tabs").tabs("add",{
+				title:text,
+				iconCls:iconCls,
+				closable:true,
+				content:content
+			});
+		}
+	}
+	
+	function logout(){
+		window.location.href='/index';
+	}
+	/*]]>*/  
+</script>
+</html>
